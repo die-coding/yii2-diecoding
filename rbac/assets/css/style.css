@@ -1,0 +1,198 @@
+/**
+ * @Author: Die Coding <www.diecoding.com>
+ * @Date:   06 March 2018
+ * @Email:  diecoding@gmail.com
+ * @Last modified by:   Die Coding <www.diecoding.com>
+ * @Last modified time: 12 March 2018
+ * @License: MIT
+ * @Copyright: 2018
+ */
+
+html, body {
+  height: 100%;
+}
+
+.wrap {
+  min-height: 100%;
+  height: auto;
+  margin: 0 auto -60px;
+  padding: 0 0 60px;
+}
+
+.wrap>.container {
+  padding: 70px 15px 20px;
+}
+
+.footer {
+  height: 60px;
+  background-color: #f5f5f5;
+  border-top: 1px solid #ddd;
+  padding-top: 20px;
+  margin-top: 28px;
+}
+
+.jumbotron {
+  text-align: center;
+  background-color: transparent;
+}
+
+.jumbotron .btn {
+  font-size: 21px;
+  padding: 14px 24px;
+}
+
+.not-set {
+  color: #c55;
+  font-style: italic;
+}
+
+/* add sorting icons to gridview sort links */
+
+a.asc:after, a.desc:after {
+  position: relative;
+  top: 1px;
+  display: inline-block;
+  font-family: 'Glyphicons Halflings';
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  padding-left: 5px;
+}
+
+a.asc:after {
+  content: "\e151";
+}
+
+a.desc:after {
+  content: "\e152";
+}
+
+.sort-numerical a.asc:after {
+  content: "\e153";
+}
+
+.sort-numerical a.desc:after {
+  content: "\e154";
+}
+
+.sort-ordinal a.asc:after {
+  content: "\e155";
+}
+
+.sort-ordinal a.desc:after {
+  content: "\e156";
+}
+
+.grid-view td {
+  white-space: nowrap;
+}
+
+.grid-view .filters input, .grid-view .filters select {
+  min-width: 50px;
+}
+
+.hint-block {
+  display: block;
+  margin-top: 5px;
+  color: #999;
+}
+
+.error-summary {
+  color: #a94442;
+  background: #fdf7f7;
+  border-left: 3px solid #eed3d7;
+  padding: 10px 20px;
+  margin: 0 0 15px 0;
+}
+
+/* align the logout "link" (button in form) of the navbar */
+
+.nav li>form>button.logout {
+  padding: 15px;
+  border: none;
+}
+
+@media(max-width: 767px) {
+  .nav li>form>button.logout {
+    display: block;
+    text-align: left;
+    width: 100%;
+    padding: 10px 15px;
+  }
+}
+
+.nav>li>form>button.logout:focus, .nav>li>form>button.logout:hover {
+  text-decoration: none;
+}
+
+.nav>li>form>button.logout:focus {
+  outline: none;
+}
+
+h1 {
+  margin-bottom: 28px;
+}
+
+.icon-refresh-animate {
+  -animation: spin .7s infinite linear;
+  -ms-animation: spin .7s infinite linear;
+  -webkit-animation: spinw .7s infinite linear;
+  -moz-animation: spinm .7s infinite linear;
+}
+
+@keyframes spin {
+  from {
+    transform: scale(1) rotate(0deg);
+  }
+  to {
+    transform: scale(1) rotate(360deg);
+  }
+}
+
+@-webkit-keyframes spinw {
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@-moz-keyframes spinm {
+  from {
+    -moz-transform: rotate(0deg);
+  }
+  to {
+    -moz-transform: rotate(360deg);
+  }
+}
+
+/*  */
+
+.table-responsive {
+  border: none;
+}
+
+.btn-group-assign {
+  margin: 6rem auto;
+}
+
+.icon-success::before {
+  content: "\e092";
+}
+
+.icon-danger::before {
+  content: "\e091";
+}
+
+@media(max-width: 767px) {
+  .btn-group-assign {
+    margin: 2rem auto;
+  }
+  .icon-success::before {
+    content: "\e094";
+  }
+  .icon-danger::before {
+    content: "\e093";
+  }
+}

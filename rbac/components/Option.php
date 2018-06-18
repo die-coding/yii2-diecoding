@@ -1,0 +1,253 @@
+<?php
+/**
+ * @Author: Die Coding <www.diecoding.com>
+ * @Date:   19 February 2018
+ * @Email:  diecoding@gmail.com
+ * @Last modified by:   Die Coding <www.diecoding.com>
+ * @Last modified time: 06 March 2018
+ * @License: MIT
+ * @Copyright: 2018
+ */
+
+
+namespace diecoding\rbac\components;
+
+use Yii;
+use yii\base\Object;
+use yii\caching\Cache;
+use yii\db\Connection;
+use yii\di\Instance;
+use yii\helpers\ArrayHelper;
+use yii\rbac\ManagerInterface;
+
+/**
+ * Option
+ * Used to configure some values. To set config you can use [[\yii\base\Application::$params]]
+ *
+ * ```
+ * return [
+ *   'die.rbac.Option' => [
+ *     'db'        => 'dbName',
+ *     'menuTable' => '{{%menu}}',
+ *     'cache'     => [
+ *       'class' => 'yii\caching\DbCache',
+ *       'db' => ['dsn' => 'sqlite:@runtime/diecoding-cache.db'],
+ *     ],
+ *   ]
+ * ];
+ * ```
+ *
+ * or use [[\Yii::$container]]
+ *
+ * ```
+ * Yii::$container->set('diecoding\rbac\components\Option',[
+ *   'db'        => 'dbName',
+ *   'menuTable' => 'menu',
+ * ]);
+ * ```
+ *
+ * @author Die Coding <diecoding@gmail.com>
+ * @since 0.0.0
+ */
+class Option extends Object
+{
+  const CACHE_TAG = 'die.rbac';
+
+  /**
+   * @var ManagerInterface .
+   */
+  public $authManager = 'authManager';
+
+  /**
+   * @var Connection Database connection.
+   */
+  public $db = 'db';
+
+  /**
+   * @var Connection Database connection.
+   */
+  public $userDb = 'db';
+
+  /**
+   * @var Cache Cache component.
+   */
+  public $cache = 'cache';
+
+  /**
+   * @var integer Cache duration. Default to a day.
+   */
+  public $cacheDuration = 3600*24*1;
+
+  /**
+   * @var string Menu table name.
+   */
+  public $menuTable = '{{%menu}}';
+
+  /**
+   * @var string Menu table name.
+   */
+  public $userTable = '{{%user}}';
+
+  /**
+   * @var integer Default status user signup. 10 mean active.
+   */
+  public $defaultUserStatus = 10;
+
+  /**
+   * @var boolean If true then AccessControl only check if route are registered.
+   */
+  public $onlyRegisteredRoute = false;
+
+  /**
+   * @var boolean If false then AccessControl will check without Rule.
+   */
+  public $strict = true;
+
+  /**
+   * @var array
+   */
+  public $options;
+
+  /**
+   * @var array|false
+   */
+  public $advanced;
+
+  /**
+   * @var self Instance of self
+   */
+  private static $_instance;
+  private static $_classes = [
+    'db'          => 'yii\db\Connection',
+    'userDb'      => 'yii\db\Connection',
+    'cache'       => 'yii\caching\Cache',
+    'authManager' => 'yii\rbac\ManagerInterface',
+  ];
+
+  /**
+   * @inheritdoc
+   */
+  public function init()
+  {
+   foreach (self::$_classes as $key => $value) {
+     try {
+       $this->$key = empty($this->$key) ? null : Instance::ensure($this->$key, $value);
+     } catch (\Exception $e) {
+       $this->$key = null;
+       Yii::error($e->getMessage());
+     }
+   }
+  }
+
+  /**
+   * Create instance of self
+   * @return static
+   */
+  public static function instance()
+  {
+   if (self::$_instance === null) {
+     $value = ArrayHelper::getValue(Yii::$app->params, 'die.rbac.Option', []);
+     if (is_array($value) && !isset($value['class'])) {
+       $value['class'] = static::className();
+     }
+
+     self::$_instance = Yii::createObject($value);
+   }
+
+   return self::$_instance;
+  }
+
+  public static function __callStatic($name, $arguments)
+  {
+    $instance = static::instance();
+    if ($instance->hasProperty($name)) {
+      return $instance->$name;
+    } else {
+      if (count($arguments)) {
+        $instance->options[$name] = reset($arguments);
+      } else {
+        return array_key_exists($name, $instance->options) ? $instance->options[$name] : null;
+      }
+    }
+  }
+
+  /**
+   * @return Connection
+   */
+  public static function db()
+  {
+    return static::instance()->db;
+  }
+
+  /**
+   * @return Connection
+   */
+  public static function userDb()
+  {
+    return static::instance()->userDb;
+  }
+
+  /**
+   * @return Cache
+   */
+  public static function cache()
+  {
+    return static::instance()->cache;
+  }
+
+  /**
+   * @return ManagerInterface
+   */
+  public static function authManager()
+  {
+    return static::instance()->authManager;
+  }
+
+  /**
+   * @return integer
+   */
+  public static function cacheDuration()
+  {
+    return static::instance()->cacheDuration;
+  }
+
+  /**
+   * @return string
+   */
+  public static function menuTable()
+  {
+    return static::instance()->menuTable;
+  }
+
+  /**
+   * @return string
+   */
+  public static function userTable()
+  {
+    return static::instance()->userTable;
+  }
+
+  /**
+   * @return string
+   */
+  public static function defaultUserStatus()
+  {
+    return static::instance()->defaultUserStatus;
+  }
+
+  /**
+   * @return boolean
+   */
+  public static function onlyRegisteredRoute()
+  {
+    return static::instance()->onlyRegisteredRoute;
+  }
+
+  /**
+   * @return boolean
+   */
+  public static function strict()
+  {
+    return static::instance()->strict;
+  }
+}
