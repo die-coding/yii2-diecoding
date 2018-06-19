@@ -5,6 +5,7 @@
  * @copyright Copyright (c) 2018
  */
 
+Yii::setAlias('@themes', dirname(dirname(__DIR__)) . '/yii2-themes');
 Yii::setAlias('@diecoding', dirname(__DIR__));
 
 // getenv()
