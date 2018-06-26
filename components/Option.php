@@ -86,7 +86,7 @@ class Option extends Component
     if ($value === self::DEFAULT_THEME_NAME) {
       return self::DEFAULT_THEME_BASE;
     } elseif (!is_dir($dirAssets)) {
-      return "/themes/{$value}";
+      return Yii::getAlias("@public/themes/{$value}");
     } else {
       return Yii::$app->assetManager->getPublishedUrl($dirAssets);
     }

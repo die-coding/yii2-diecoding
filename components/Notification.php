@@ -1,11 +1,9 @@
 <?php
-# @Author: Die Coding | www.diecoding.com
-# @Date:   12 December 2017
-# @Email:  diecoding@gmail.com
-# @Last modified by:   Die Coding | www.diecoding.com
-# @Last modified time: 16 January 2018
-# @License: MIT
-# @Copyright: 2017
+/**
+ * @link http://www.diecoding.com/
+ * @author Die Coding (Sugeng Sulistiyawan) <diecoding@gmail.com>
+ * @copyright Copyright (c) 2018
+ */
 
 
 namespace diecoding\components;
@@ -121,7 +119,14 @@ class Notification extends Component
     $model = new Peserta();
     $out   = [];
 
-    if (strtotime(Yii::$app->option->extends('a_ph_tanggal', 'simbok')) <= strtotime(date('Y/m/d')) && Yii::$app->option->extends('a_ph_status', 'simbok') == 1 && Yii::$app->option->extends('a_ph_visible_main', 'simbok') == 1) {
+    if (!Yii::$app->user->isGuest && !Yii::$app->user->identity->photo) {
+        $out[] = [
+          'alert'   => 'danger',
+          'content' => "Maaf, mohon segera perbarui <strong>Photo Profil</strong> Anda.",
+        ];
+    }
+
+    if (strtotime(Yii::$app->option->extends('a_ph_tanggal', 'aritmatika')) <= strtotime(date('Y/m/d')) && Yii::$app->option->extends('a_ph_status', 'aritmatika') == 1 && Yii::$app->option->extends('a_ph_visible_main', 'aritmatika') == 1) {
       $h = $model->getDataHasil(Yii::$app->user->id);
       if ($h[$model::PENYISIHAN] === $model::LOLOS) {
 
